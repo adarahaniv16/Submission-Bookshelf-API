@@ -3,6 +3,7 @@ const {
     tampilSemuaBukuHandler,
     detailBukuHandler,
     editBukuHandler,
+    hapusBukuHandler,
 } = require('./handler');
 
 const routes = [
@@ -25,6 +26,11 @@ const routes = [
         method: 'PUT',
         path: '/books/{id}',
         handler: editBukuHandler,
+    },
+    {
+        method: 'DELETE',
+        path: '/books/{id}',
+        handler: hapusBukuHandler,
     },
 ];
 
