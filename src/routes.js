@@ -1,6 +1,7 @@
 const {
     simpanBukuHandler,
     tampilSemuaBukuHandler,
+    detailBukuHandler,
 } = require('./handler');
 
 const routes = [
@@ -13,6 +14,11 @@ const routes = [
         method: 'GET',
         path: '/books',
         handler: tampilSemuaBukuHandler,
+    },
+    {
+        method: 'GET',
+        path: '/books/{id}',
+        handler: detailBukuHandler,
     },
 ];
 

@@ -18,7 +18,6 @@ function simpanBukuHandler(request, h) {
             message: 'Gagal menambahkan buku. readPage tidak boleh lebih besar dari pageCount',
         });
         response.code(400);
-
         return response;
     }
 
@@ -34,13 +33,12 @@ function simpanBukuHandler(request, h) {
         publisher: requestBuku.publisher,
         pageCount: requestBuku.pageCount,
         readPage: requestBuku.readPage,
-        reading: requestBuku.reading,
         finished: requestBuku.pageCount === requestBuku.readPage,
+        reading: requestBuku.reading,
         insertedAt,
         updatedAt,
     };
     books.push(newBook);
-
     const isSuccess = books.some((book) => book.id === bookId).length > 0;
     if (!isSuccess) {
         const response = h.response({
@@ -51,7 +49,6 @@ function simpanBukuHandler(request, h) {
             },
         });
         response.code(201);
-
         return response;
     }
     const response = h.response({
@@ -66,7 +63,7 @@ function simpanBukuHandler(request, h) {
 const tampilSemuaBukuHandler = (request, h) => {
     let bodyRespon;
     const { query } = request;
-    const { name, reading, finished } = query;
+    const { name, finished, reading } = query;
 
     if (name) {
         const array = [];
@@ -84,7 +81,6 @@ const tampilSemuaBukuHandler = (request, h) => {
         };
         return bodyRespon;
     }
-
     if (reading && Number(reading) === 0 || Number(reading) === 1) {
         const array = [];
         for (let i = 0; i < books.length; i++) {
@@ -101,7 +97,6 @@ const tampilSemuaBukuHandler = (request, h) => {
         };
         return bodyRespon;
     }
-
     if (finished && Number(finished) === 0 || Number(finished) === 1) {
         const array = [];
         for (let i = 0; i < books.length; i++) {
@@ -132,7 +127,6 @@ const tampilSemuaBukuHandler = (request, h) => {
         };
         return bodyRespon;
     }
-
     if (books.length > 0 && !name && !reading && !finished) {
         const array = [];
         for (let i = 0; i < books.length; i++) {
@@ -157,7 +151,30 @@ const tampilSemuaBukuHandler = (request, h) => {
     return h;
 };
 
+// Menampilkan detail buku
+const detailBukuHandler = (request, h) => {
+    const { id } = request.params;
+    const book = books.filter((z) => z.id === id)[0];
+    if (book !== undefined) {
+        const response = h.response({
+            status: 'success',
+            data: {
+                book,
+            },
+        }).code(200);
+        return response;
+    }
+    const response = h
+        .response({
+            status: 'fail',
+            message: 'Buku tidak ditemukan',
+        })
+        .code(404);
+    return response;
+};
+
 module.exports = {
     simpanBukuHandler,
     tampilSemuaBukuHandler,
+    detailBukuHandler,
 };
