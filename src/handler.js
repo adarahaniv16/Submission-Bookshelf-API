@@ -62,6 +62,102 @@ function simpanBukuHandler(request, h) {
     return response;
 }
 
+// Menampilkan Semua Buku
+const tampilSemuaBukuHandler = (request, h) => {
+    let bodyRespon;
+    const { query } = request;
+    const { name, reading, finished } = query;
+
+    if (name) {
+        const array = [];
+        for (let i = 0; i < books.length; i++) {
+            if (books[i].name.toLowerCase().includes(name.toLowerCase())) {
+                const { id, name, publisher } = books[i];
+                array.push({ id, name, publisher });
+            }
+        }
+        bodyRespon = {
+            status: 'success',
+            data: {
+                books: array,
+            },
+        };
+        return bodyRespon;
+    }
+
+    if (reading && Number(reading) === 0 || Number(reading) === 1) {
+        const array = [];
+        for (let i = 0; i < books.length; i++) {
+            if (books[i].reading == reading) {
+                const { id, name, publisher } = books[i];
+                array.push({ id, name, publisher });
+            }
+        }
+        bodyRespon = {
+            status: 'success',
+            data: {
+                books: array,
+            },
+        };
+        return bodyRespon;
+    }
+
+    if (finished && Number(finished) === 0 || Number(finished) === 1) {
+        const array = [];
+        for (let i = 0; i < books.length; i++) {
+            if (books[i].finished == finished) {
+                const { id, name, publisher } = books[i];
+                array.push({ id, name, publisher });
+            }
+        }
+        bodyRespon = {
+            status: 'success',
+            data: {
+                books: array,
+            },
+        };
+        return bodyRespon;
+    } if (finished && Number(finished) !== 0 && Number(finished) !== 1) {
+        const array = [];
+        for (let i = 0; i < books.length; i++) {
+            array.push(
+                { id: books[i].id, name: books[i].name, publisher: books[i].publisher },
+            );
+        }
+        bodyRespon = {
+            status: 'success',
+            data: {
+                books: array,
+            },
+        };
+        return bodyRespon;
+    }
+
+    if (books.length > 0 && !name && !reading && !finished) {
+        const array = [];
+        for (let i = 0; i < books.length; i++) {
+            array.push(
+                { id: books[i].id, name: books[i].name, publisher: books[i].publisher },
+            );
+        }
+        h = {
+            status: 'success',
+            data: {
+                books: array,
+            },
+        };
+        return h;
+    }
+    h = {
+        status: 'success',
+        data: {
+            books,
+        },
+    };
+    return h;
+};
+
 module.exports = {
     simpanBukuHandler,
+    tampilSemuaBukuHandler,
 };

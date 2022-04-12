@@ -15,6 +15,13 @@
         "indent": ["error", 4],
         "linebreak-style": ["error", "unix"],
         "quotes": ["error", "single"],
-        "semi": ["error", "always"]
+        "semi": ["error", "always"],
+        "no-underscore-dangle": "off",
+        "camelcase": "off",
+        "no-plusplus": "off",
+        "no-shadow": "off",
+        "no-mixed-operators" : "off",
+        "eqeqeq": "off",
+        "no-param-reassign": 0
     }
 }
